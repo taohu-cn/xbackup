@@ -1,0 +1,61 @@
+{% extends "base_page.html" %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='DataTable/jquery.dataTables.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='DataTable/datatables.min.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <table id="data_list" class="hover" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>项目</th>
+                <th>备份方式</th>
+                <th>IP信息</th>
+                <th>PORT</th>
+                <th>数据库名</th>
+                <th>备份大小</th>
+                <th>统计时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in obj %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ i.project_obj.name }}</td>
+                    <td>{{ i.tactics }}</td>
+                    <td>{{ i.host }}</td>
+                    <td>{{ i.port }}</td>
+                    <td>{{ i.db_name }}</td>
+                    <td>{{ i.size }}</td>
+                    <td>{{ i.ctime }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block ext_js %}
+    <script src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='DataTable/jquery.dataTables.js') }}"></script>
+    <script src="{{ url_for('static', filename='DataTable/dataTables.bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='DataTable/ellipses.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#data_list').DataTable({
+                "pagingType": "ellipses"
+            });
+        });
+    </script>
+{% endblock %}
+
+
+
+
+
+
+

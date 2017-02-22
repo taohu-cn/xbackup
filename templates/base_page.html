@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/api_01_01/general.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+{% endblock %}
+
+{% block center_url %}
+    {{ url_for("api_01_01.page_center") }}
+{% endblock %}
+
+{% block projects_url %}
+    {{ url_for("api_01_01.page_projects") }}
+{% endblock %}
+

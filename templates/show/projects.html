@@ -1,0 +1,39 @@
+{% extends "base_page.html" %}
+
+{% block content %}
+    <div class="container">
+        <!--<h2>Project</h2>-->
+
+        <!-- Default panel contents -->
+        <div class="panel panel-default">
+            <!--<div class="panel-heading">Panel heading</div>-->
+            <div class="panel-body">
+                <p>项目列表</p>
+            </div>
+
+            <!-- Table -->
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>项目代码</th>
+                    <th>项目名称</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for i in obj %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <!--<a href="{{ url_for("api_01_01.projects_detail") }}?num={{ i.id }}">{{ i.name }}</a>-->
+                            <a href="{{ url_for("api_01_01.projects_detail") }}{{ i.id }}/">{{ i.name }}</a>
+                        </td>
+                        <td>{{ i.memo }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
