@@ -5,7 +5,7 @@
 # reload(sys)
 # sys.setdefaultencoding("utf-8")
 
-SERVER_API = '127.0.0.1:5001'
+SERVER_API = '127.0.0.1:5001/api/data_post/'
 
 # mysql server ip address
 HOST = '172.16.81.62'
@@ -18,9 +18,9 @@ USER = 'backer'
 PASWD = 'Bker.!.'
 
 # mysql backup commond (tip: xtra for innobackupex and dumpall for mysqldump -A, dump for single db)
-MTH = 'dumpall'
+TACTICS = 'dumpall'
 CMD = '/usr/bin/mysqldump'
-# MTH = 'xtra'
+# TACTICS = 'xtra'
 # CMD = '/usr/bin/innobackupex'
 
 # mysql config file, it's necessary if you backup using innobackupex
@@ -32,5 +32,8 @@ DBS = ['xguardian', 'xmonitor', 'career', ]
 # position to store the data, Attention: must end with '/' !!!  ( eg: /i01/bak_mysql/172.16.10.11/)
 DEST_DIR = '/tmp/'
 
-# project tag
-TAG = 'test'
+# project name
+NAME = 'test'
+
+# project type
+TYPE = 'Center'

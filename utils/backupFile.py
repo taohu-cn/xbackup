@@ -25,9 +25,10 @@ class Backup(object):
         self.dbs = DBS
         self.dest_dir = DEST_DIR
         self.cnf = CNF
-        self.mth = MTH
+        self.tactics = TACTICS
         self.cmd = CMD
-        self.sign = TAG
+        self.name = NAME
+        self.type = TYPE
         self.back_cmd()
 
     def create_dir(self):
@@ -46,7 +47,7 @@ class Backup(object):
         :return: []
         """
         cmd_list = []
-        if self.mth == 'xtra':
+        if self.tactics == 'xtra':
             this_cmd = "{0} --user={1} --password={2} --defaults-file={3} {4}/{5}_xtra --no-timestamp".format(
                 self.cmd,
                 self.user,
@@ -57,7 +58,7 @@ class Backup(object):
             )
             cmd_list.append(this_cmd)
 
-        elif self.mth == 'dumpall':
+        elif self.tactics == 'dumpall':
             this_cmd = "{0} -h{1} -P{2} -u{3} -p'{4}' -A -R --single-transaction --master-data=2 > {5}/{6}".format(
                 self.cmd,
                 self.host,
@@ -90,15 +91,15 @@ class Backup(object):
         执行备份
         """
         for i in self.back_cmd():
-            print(i)
+            # print(i)
             result = execute(i)
             result.wait()
 
     def post(self):
         data = {}
-        if self.mth is not False:
+        if self.tactics is not False:
             tmp_list = []
-            result = execute("cd {0}/{1} && du -s *".format(self.dest_dir, current_date))
+            result = execute("cd {0}/{1} && du -s {2}*".format(self.dest_dir, current_date, current_time))
             result.wait()
             for i in result.stdout:
                 size, name = i.split()
@@ -107,17 +108,19 @@ class Backup(object):
                 'host': self.host,
                 'port': self.port,
                 'info': tmp_list,
-                'tactics': self.mth,
+                'tactics': self.tactics,
+                'date': current_date,
                 'datetime': current_date + ' ' + current_time.replace('-', ':'),
-                'project_flag': self.sign
+                'pro_name': self.name,
+                'pro_type': self.type
             })
-        print(data)
+        exit(data)
 
         if sys.version.split('.')[0] == '3':
             import urllib.request
             import urllib.parse
 
-            url = self.url
+            url = "http://" + self.url
             data = urllib.parse.urlencode(data)
             data = data.encode('utf-8')
             request = urllib.request.Request(url=url)
@@ -131,7 +134,7 @@ class Backup(object):
             import urllib
             import urllib2
 
-            url = self.url
+            url = "http://" + self.url
             data_encode = urllib.urlencode(data)
             req = urllib2.Request(url=url, data=data_encode)
             res_data = urllib2.urlopen(req, timeout=30)
@@ -150,9 +153,11 @@ def execute(cmd):
 
 
 if __name__ == '__main__':
-    print(current_date, current_time)
-    backer = Backup()
-    print(backer.back_cmd())
-    # backer.exe_backup()
-    # backer.post()
-    pass
+    import logging
+
+    try:
+        backer = Backup()
+        backer.exe_backup()
+        backer.post()
+    except Exception as e:
+        logging.exception(e)

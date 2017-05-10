@@ -17,6 +17,7 @@
                 <th>PORT</th>
                 <th>数据库名</th>
                 <th>备份大小</th>
+                <th>备份日期</th>
                 <th>统计时间</th>
             </tr>
             </thead>
@@ -30,6 +31,7 @@
                     <td>{{ i.port }}</td>
                     <td>{{ i.db_name }}</td>
                     <td>{{ i.size }}</td>
+                    <td>{{ i.agent_date }}</td>
                     <td>{{ i.ctime }}</td>
                 </tr>
             {% endfor %}
